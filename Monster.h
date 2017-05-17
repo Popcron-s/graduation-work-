@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Character.h"
+#include "SoundLibrary.h"
 
 class Monster : public Character{
 private:
@@ -15,6 +16,7 @@ public:
 	}
 	void BeAttacked(){
 		if(IsInterval()){return;}
+		SoundLib::GetSingleton()->Damaged();
 		--HP;
 		std::cout<< "HP : " << HP <<std::endl;
 		Interval = 600;

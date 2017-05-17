@@ -10,6 +10,7 @@
 #include "Game_Enum.h"
 
 #include "Collision.h"
+#include "SoundLibrary.h"
 
 class Player : public Character{
 private:
@@ -150,11 +151,12 @@ public:
 	void SA_Walk(){
 		List<MESH>::iterator mesh_iter = GetMesh().Begin();
 
-		ani[(UINT)ANI_ENUM::WALK] = new ANIMATION((void*&)*this, 4);
+		ani[(UINT)ANI_ENUM::WALK] = new ANIMATION((void*&)*this, 5);
 		(*(ani[(UINT)ANI_ENUM::WALK]))[0] = new _Graph_template<FLOAT2>(mesh_iter->vtx[0].tex, 5);
 		(*(ani[(UINT)ANI_ENUM::WALK]))[1] = new _Graph_template<FLOAT2>(mesh_iter->vtx[1].tex, 5);
 		(*(ani[(UINT)ANI_ENUM::WALK]))[2] = new _Graph_template<FLOAT2>(mesh_iter->vtx[2].tex, 5);
 		(*(ani[(UINT)ANI_ENUM::WALK]))[3] = new _Graph_template<FLOAT2>(mesh_iter->vtx[3].tex, 5);
+		(*(ani[(UINT)ANI_ENUM::WALK]))[4] = new _Graph_function<SoundLib>(SoundLib::GetSingleton(), 2);
 
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::WALK]))[0])->SetNode(0, {0.250f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 0);
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::WALK]))[1])->SetNode(0, {0.375f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 0);
@@ -181,41 +183,48 @@ public:
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::WALK]))[2])->SetNode(4, {0.250f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 800);
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::WALK]))[3])->SetNode(4, {0.375f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 800);
 
+		((_Graph_function<SoundLib>*)(*(ani[(UINT)ANI_ENUM::WALK]))[4])->SetNode(0, &SoundLib::Walk, 400);
+		((_Graph_function<SoundLib>*)(*(ani[(UINT)ANI_ENUM::WALK]))[4])->SetNode(1, &SoundLib::Walk, 800);
+
 		(ani[(UINT)ANI_ENUM::WALK])->SetLoop(true);	(ani[(UINT)ANI_ENUM::WALK])->SetAuto(true);
 	}
 	void SA_Dash(){
 		List<MESH>::iterator mesh_iter = GetMesh().Begin();
 
-		ani[(UINT)ANI_ENUM::DASH] = new ANIMATION((void*&)*this, 4);
+		ani[(UINT)ANI_ENUM::DASH] = new ANIMATION((void*&)*this, 5);
 		(*(ani[(UINT)ANI_ENUM::DASH]))[0] = new _Graph_template<FLOAT2>(mesh_iter->vtx[0].tex, 5);
 		(*(ani[(UINT)ANI_ENUM::DASH]))[1] = new _Graph_template<FLOAT2>(mesh_iter->vtx[1].tex, 5);
 		(*(ani[(UINT)ANI_ENUM::DASH]))[2] = new _Graph_template<FLOAT2>(mesh_iter->vtx[2].tex, 5);
 		(*(ani[(UINT)ANI_ENUM::DASH]))[3] = new _Graph_template<FLOAT2>(mesh_iter->vtx[3].tex, 5);
+		(*(ani[(UINT)ANI_ENUM::DASH]))[4] = new _Graph_function<SoundLib>(SoundLib::GetSingleton(), 2);
 
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(0, {0.750f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 0);
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(0, {0.875f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 0);
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(0, {0.750f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 0);
 		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(0, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 0);
 
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(1, {0.875f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 200);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(1, {1.000f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 200);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(1, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 200);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(1, {1.000f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 200);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(1, {0.875f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 100);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(1, {1.000f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 100);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(1, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 100);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(1, {1.000f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 100);
 
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(2, {0.750f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 400);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(2, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 400);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(2, {0.750f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 400);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(2, {0.875f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 400);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(2, {0.750f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 200);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(2, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 200);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(2, {0.750f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 200);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(2, {0.875f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 200);
 
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(3, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 600);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(3, {1.000f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 600);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(3, {0.875f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 600);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(3, {1.000f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 600);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(3, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 300);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(3, {1.000f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 300);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(3, {0.875f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 300);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(3, {1.000f, 0.50f}, _GRAPH::INTERPOLATION::POINT, 300);
 
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(4, {0.750f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 800);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(4, {0.875f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 800);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(4, {0.750f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 800);
-		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(4, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 800);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[0])->SetNode(4, {0.750f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 400);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[1])->SetNode(4, {0.875f, 0.00f}, _GRAPH::INTERPOLATION::POINT, 400);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[2])->SetNode(4, {0.750f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 400);
+		((_Graph_template<FLOAT2>*)(*(ani[(UINT)ANI_ENUM::DASH]))[3])->SetNode(4, {0.875f, 0.25f}, _GRAPH::INTERPOLATION::POINT, 400);
+
+		((_Graph_function<SoundLib>*)(*(ani[(UINT)ANI_ENUM::DASH]))[4])->SetNode(0, &SoundLib::Walk, 200);
+		((_Graph_function<SoundLib>*)(*(ani[(UINT)ANI_ENUM::DASH]))[4])->SetNode(1, &SoundLib::Walk, 400);
 
 		(ani[(UINT)ANI_ENUM::DASH])->SetLoop(true);	(ani[(UINT)ANI_ENUM::DASH])->SetAuto(true);
 	}
